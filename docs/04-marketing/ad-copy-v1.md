@@ -50,3 +50,6 @@
 - criterio profesional
 - entender tu caso
 - siguiente paso con mayor claridad
+
+## Nota de segmentación comercial
+El copy debe mantenerse compatible con un piloto enfocado en zonas de mayor valor inmobiliario esperado en Ciudad de México, sin usar lenguaje discriminatorio ni atributos personales sensibles.

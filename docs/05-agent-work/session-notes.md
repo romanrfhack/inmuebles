@@ -123,3 +123,13 @@ Se implementó la captura básica de UTMs en la landing y en el backend para gua
 - Se guardan en `leads.json`.
 - Se incluyen en Telegram cuando existen.
 - El flujo sigue funcionando aunque no vengan UTMs.
+
+## 2026-04-29 - Ajuste de campaña Google Search a CDMX
+### Contexto
+Se acotó la campaña piloto de Google Search a Ciudad de México, priorizando zonas con mayor valor inmobiliario esperado y excluyendo zonas de menor ticket esperado en la fase inicial.
+
+### Nota
+- Se acotó campaña piloto a CDMX.
+- Se priorizaron zonas de mayor valor inmobiliario esperado.
+- Se excluyen zonas de menor ticket esperado durante piloto.
+- Se mantiene enfoque de cumplimiento y no discriminación.

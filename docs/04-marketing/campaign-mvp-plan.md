@@ -9,21 +9,27 @@ Piloto inicial de 7 días.
 ## Presupuesto sugerido
 Montos orientativos sujetos a zona, competencia y calidad del anuncio.
 
-### Opción conservadora
-- 150 a 250 MXN por día
-- Total estimado 7 días: 1,050 a 1,750 MXN
+### Piloto conservador
+- 100 MXN por día
+- Total estimado 7 días: 700 MXN
 
-### Opción media
-- 300 a 500 MXN por día
-- Total estimado 7 días: 2,100 a 3,500 MXN
+### Piloto recomendado
+- 150 MXN por día
+- Total estimado 7 días: 1,050 MXN
 
-### Opción agresiva
-- 700 a 1,000 MXN por día
-- Total estimado 7 días: 4,900 a 7,000 MXN
+### Piloto agresivo
+- 250 MXN por día
+- Total estimado 7 días: 1,750 MXN
 
 ## Enfoque recomendado
 - Google Search como canal principal por intención directa.
 - Meta Ads como canal secundario para awareness y prueba de mensajes.
+
+## Ubicación comercial sugerida
+- Iniciar únicamente en Ciudad de México.
+- Priorizar zonas con mayor probabilidad de inmuebles de valor medio-alto o alto.
+- Evitar dispersar presupuesto en zonas periféricas durante el piloto.
+- Mantener enfoque de cumplimiento y no discriminación, usando criterios de operación y ticket esperado, no atributos personales.
 
 ## Métricas iniciales
 - impresiones
