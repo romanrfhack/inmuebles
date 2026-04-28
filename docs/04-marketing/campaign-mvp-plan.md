@@ -43,3 +43,9 @@ Montos orientativos sujetos a zona, competencia y calidad del anuncio.
 
 ## Nota estratégica
 En esta fase el objetivo no es escalar volumen, sino aprender qué intención trae mejores casos y qué mensajes generan confianza sin atraer demasiado ruido.
+
+## Ajustes operativos incorporados
+- WhatsApp Business queda activado como canal directo.
+- Número operativo en formato internacional: `525573266634`.
+- El CTA de WhatsApp ya apunta a número real.
+- Se agregó logo corporativo a la landing.

@@ -28,6 +28,11 @@
 - El abogado solo recibe casos filtrados y resumidos.
 - El operador debe mantener trazabilidad básica de cada contacto, clasificación y siguiente paso.
 
+## Canales operativos
+- El formulario sigue siendo el canal principal de captura estructurada.
+- WhatsApp Business será canal de contacto inicial con el prospecto.
+- Telegram sigue siendo canal interno de notificación y coordinación.
+
 ## Estados sugeridos del lead
 - Nuevo
 - Contactado

@@ -104,3 +104,12 @@ Se diseñó la primera campaña piloto de captación de leads para Patrimonio Cl
 - Se documentó Meta Ads como canal secundario.
 - Se documentaron riesgos de política publicitaria.
 - Siguiente fase sugerida: revisar copy y decidir presupuesto inicial.
+
+## 2026-04-29 - Vinculación de WhatsApp Business y logo corporativo
+### Contexto
+Se actualizó la landing para usar el número real de WhatsApp Business y se agregó el logo corporativo, dejando pendiente el despliegue a producción después de validación.
+
+### Nota
+- Se vinculó WhatsApp Business real.
+- Se agregó logo corporativo.
+- Pendiente desplegar a producción después de validación.
