@@ -22,3 +22,13 @@ Se definió que el proyecto Inmuebles iniciará como plataforma de captación y 
 - validar nombre de marca
 - definir criterios de calificación de leads
 - aterrizar estructura de landing y formulario
+
+## 2026-04-28 - Configuración de identidad Git local
+### Contexto
+Se configuró la identidad Git local del repositorio para evitar que nuevos commits usen la identidad automática del servidor.
+
+### Nota
+- Se configuró identidad Git local del repositorio.
+- No se reescribió historial.
+- Los commits anteriores conservan la identidad original.
+- Los commits futuros usarán la nueva identidad local.
