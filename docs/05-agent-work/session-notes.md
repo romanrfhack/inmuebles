@@ -62,3 +62,12 @@ Se diseñó la siguiente mejora del MVP para notificar automáticamente nuevos l
 - Se documentó el diseño de notificaciones automáticas.
 - Se recomendó Telegram Bot API como opción inicial.
 - Queda pendiente implementación futura.
+
+## 2026-04-28 - Implementación de notificación por Telegram
+### Contexto
+Se implementó la notificación automática de nuevos leads por Telegram en el backend de desarrollo, sin agregar dependencias ni secretos al repositorio.
+
+### Nota
+- Se implementó notificación por Telegram en backend.
+- Queda pendiente configurar variables reales en producción.
+- No se agregaron secretos al repo.

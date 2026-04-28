@@ -111,5 +111,15 @@ printf '[]\n' > /var/www/patrimonioclaro/backend/leads.json && chown www-data:ww
 - Aviso de privacidad MVP requiere validación legal final.
 - El servidor productivo aloja otros sistemas, por lo que cualquier cambio nginx debe hacerse con `nginx -t` y `reload`, no `restart` innecesario.
 
+## Notificaciones de leads por Telegram
+- Variables necesarias:
+  - `LEAD_NOTIFICATIONS_ENABLED=true`
+  - `TELEGRAM_BOT_TOKEN`
+  - `TELEGRAM_CHAT_ID`
+- Ubicación recomendada del `EnvironmentFile`: `/etc/patrimonioclaro/api.env`
+- Ese archivo no debe versionarse en git.
+- Riesgo principal: exposición de datos personales si el chat destino no está bien controlado.
+- Fallback esperado: si Telegram falla o no está configurado, el lead debe seguir guardándose en `leads.json` y solo debe registrarse un warning no fatal en logs.
+
 ## Siguiente paso recomendado
 Implementar notificación automática de nuevos leads por correo o Telegram/WhatsApp, sin cambiar todavía a base de datos.

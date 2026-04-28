@@ -11,6 +11,7 @@ const PHONE_MIN_LENGTH = 8;
 const PHONE_MAX_LENGTH = 20;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
+const TELEGRAM_MESSAGE_COMMENT_LIMIT = 500;
 const rateLimitStore = new Map();
 
 function ensureLeadsFile() {
@@ -166,6 +167,66 @@ function saveLead(payload) {
   fs.writeFileSync(leadsFile, JSON.stringify(current, null, 2) + '\n', 'utf8');
 }
 
+function truncateForTelegram(value, maxLength) {
+  if (!value) {
+    return '';
+  }
+
+  if (value.length <= maxLength) {
+    return value;
+  }
+
+  return `${value.slice(0, maxLength - 3)}...`;
+}
+
+function buildTelegramLeadMessage(lead) {
+  return [
+    'Nuevo lead - Patrimonio Claro',
+    '',
+    `Nombre: ${lead.nombre || ''}`,
+    `Teléfono: ${lead.telefono || ''}`,
+    `Tipo de problema: ${lead.tipoProblema || ''}`,
+    `Valor estimado: ${lead.valorEstimado || ''}`,
+    `Comentarios: ${truncateForTelegram(lead.comentarios || '', TELEGRAM_MESSAGE_COMMENT_LIMIT)}`,
+    `Fecha: ${lead.fecha || ''}`,
+    `Origen: ${lead.origen || ''}`,
+  ].join('\n');
+}
+
+async function notifyLeadByTelegram(lead) {
+  if (process.env.LEAD_NOTIFICATIONS_ENABLED !== 'true') {
+    return;
+  }
+
+  const botToken = normalizeString(process.env.TELEGRAM_BOT_TOKEN);
+  const chatId = normalizeString(process.env.TELEGRAM_CHAT_ID);
+
+  if (!botToken || !chatId) {
+    return;
+  }
+
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+  const payload = {
+    chat_id: chatId,
+    text: buildTelegramLeadMessage(lead),
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const body = await response.text();
+      console.warn(`[lead-notify] Telegram respondió con estado ${response.status}. Detalle: ${truncateForTelegram(body, 200)}`);
+    }
+  } catch (error) {
+    console.warn(`[lead-notify] No fue posible enviar notificación a Telegram: ${error.message}`);
+  }
+}
+
 const server = http.createServer(async (req, res) => {
   if (req.method === 'POST' && req.url === '/api/leads') {
     const clientIp = getClientIp(req);
@@ -202,6 +263,7 @@ const server = http.createServer(async (req, res) => {
       };
 
       saveLead(lead);
+      void notifyLeadByTelegram(lead);
       sendJson(res, 200, { success: true, mensaje: 'Recibimos tu información' });
     } catch (error) {
       sendJson(res, error.statusCode || 500, { success: false, mensaje: error.mensaje || 'Error interno del servidor' });
