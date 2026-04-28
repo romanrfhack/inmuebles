@@ -37,6 +37,13 @@
 
 ## Administración de leads
 - [ ] Implementar notificación automática de leads por Telegram.
+- [ ] Crear vista administrativa simple de leads.
+- [ ] Agregar estados de seguimiento.
+- [ ] Agregar exportación CSV.
+- [ ] Agregar campo de notas internas.
+- [ ] Agregar origen de campaña.
+- [ ] Agregar fecha de último contacto.
+- [ ] Evaluar migración de leads.json a SQLite o base de datos.
 - [ ] Definir estados del lead.
 - [ ] Diseñar tablero mínimo o registro operativo.
 - [ ] Establecer campos de seguimiento interno.

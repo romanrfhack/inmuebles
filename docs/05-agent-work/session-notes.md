@@ -82,3 +82,14 @@ Se documentó que la funcionalidad de notificaciones por Telegram ya quedó desp
 - No se documentaron tokens ni secretos.
 - La prueba end-to-end fue exitosa.
 - `leads.json` fue limpiado después de la prueba.
+
+## 2026-04-28 - Proceso operativo comercial de leads
+### Contexto
+Se definió el proceso operativo comercial para atender leads reales desde la notificación en Telegram hasta la posible canalización al abogado.
+
+### Nota
+- Se definió proceso operativo comercial.
+- Se documentaron criterios de calificación.
+- Se creó formato de envío al abogado.
+- Se creó guion de primer contacto.
+- Siguiente fase sugerida: preparar primera campaña y/o panel mínimo de leads.
