@@ -36,6 +36,7 @@
 - [ ] Preparar guion breve de primer contacto.
 
 ## Administración de leads
+- [ ] Implementar notificación automática de leads por Telegram.
 - [ ] Definir estados del lead.
 - [ ] Diseñar tablero mínimo o registro operativo.
 - [ ] Establecer campos de seguimiento interno.

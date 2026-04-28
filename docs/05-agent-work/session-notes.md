@@ -53,3 +53,12 @@ Se documentó la publicación del MVP en producción para Patrimonio Claro con d
 - nginx reverse proxy configurado.
 - `leads.json` limpio después de pruebas.
 - Pendiente implementar notificaciones de leads.
+
+## 2026-04-28 - Diseño de notificaciones de leads
+### Contexto
+Se diseñó la siguiente mejora del MVP para notificar automáticamente nuevos leads usando Telegram como canal inicial, sin implementar todavía cambios técnicos.
+
+### Nota
+- Se documentó el diseño de notificaciones automáticas.
+- Se recomendó Telegram Bot API como opción inicial.
+- Queda pendiente implementación futura.
