@@ -93,3 +93,14 @@ Se definió el proceso operativo comercial para atender leads reales desde la no
 - Se creó formato de envío al abogado.
 - Se creó guion de primer contacto.
 - Siguiente fase sugerida: preparar primera campaña y/o panel mínimo de leads.
+
+## 2026-04-29 - Diseño de campaña piloto MVP
+### Contexto
+Se diseñó la primera campaña piloto de captación de leads para Patrimonio Claro, sin lanzar anuncios todavía.
+
+### Nota
+- Se diseñó campaña piloto MVP.
+- Se propuso Google Search como canal inicial principal.
+- Se documentó Meta Ads como canal secundario.
+- Se documentaron riesgos de política publicitaria.
+- Siguiente fase sugerida: revisar copy y decidir presupuesto inicial.
