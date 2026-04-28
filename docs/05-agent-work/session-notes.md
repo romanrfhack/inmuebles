@@ -32,3 +32,12 @@ Se configuró la identidad Git local del repositorio para evitar que nuevos comm
 - No se reescribió historial.
 - Los commits anteriores conservan la identidad original.
 - Los commits futuros usarán la nueva identidad local.
+
+## 2026-04-28 - Aviso de privacidad MVP
+### Contexto
+Se incorporó el aviso corto para formulario y se documentó una versión integral inicial del aviso de privacidad para el MVP.
+
+### Nota
+- Se actualizó el copy visible del formulario.
+- Se documentó el aviso integral en notas legales operativas.
+- No se modificó arquitectura ni flujo técnico.

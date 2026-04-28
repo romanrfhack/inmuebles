@@ -1,30 +1,47 @@
 # Legal Copy Notes
 
 ## Objetivo
-Documentar textos mínimos y criterios de redacción legal/comercial para la landing MVP de Patrimonio Claro.
+Documentar textos legales mínimos del MVP de Patrimonio Claro para la landing, formulario y operación inicial de captación.
 
-## Principios de redacción
-- usar lenguaje claro y sobrio
-- no prometer resultados garantizados
-- no sugerir contratación automática
-- explicar que existe revisión individual del caso
-- aclarar uso inicial de datos para contacto y valoración preliminar
+## Aviso corto para formulario
+Al enviar este formulario aceptas que tus datos serán utilizados únicamente para contactarte y evaluar tu caso. No se compartirá información sin tu consentimiento. Consulta nuestro aviso de privacidad completo.
 
-## Textos mínimos incorporados
+## Aviso de privacidad integral (MVP)
 
-### Uso de datos
-La información enviada se usa únicamente para revisar tu caso de forma inicial, contactarte y determinar si procede una valoración especializada.
+### AVISO DE PRIVACIDAD
 
-### No contratación formal
-El envío de este formulario no constituye contratación formal.
+**Responsable del tratamiento de datos:**  
+Patrimonio Claro
 
-### Sin promesa de resultado
-El envío del formulario no garantiza resultado alguno.
+**Finalidad del tratamiento:**  
+Los datos personales recabados serán utilizados para:
+- Contactar al usuario
+- Evaluar de manera preliminar su caso
+- Brindar información sobre servicios relacionados
 
-### Revisión individual
-Cada caso requiere revisión individual y se valora antes de decidir si procede atención especializada.
+**Datos recabados:**
+- Nombre
+- Teléfono
+- Correo electrónico (en su caso)
+- Información proporcionada sobre el inmueble o situación
 
-## Pendientes futuros
-- redactar aviso de privacidad completo
-- definir términos y condiciones si la publicación se hace pública
-- validar textos finales con criterio legal del abogado responsable
+**Transferencia de datos:**  
+Los datos podrán ser compartidos con un especialista legal únicamente con la finalidad de analizar el caso del usuario.
+
+**Limitaciones:**  
+El envío de información no constituye una relación contractual ni garantiza la prestación de servicios.
+
+**Derechos ARCO:**  
+El usuario puede solicitar acceso, rectificación o eliminación de sus datos mediante solicitud directa.
+
+**Cambios:**  
+Este aviso puede ser modificado en cualquier momento.
+
+**Última actualización:**  
+2026-04-28
+
+## Criterios de uso en MVP
+- usar el aviso corto junto al formulario
+- enlazar después a una página dedicada de aviso de privacidad completo cuando exista
+- mantener consistencia entre formulario, footer y FAQ
+- evitar promesas de resultado, aceptación automática o contratación implícita
