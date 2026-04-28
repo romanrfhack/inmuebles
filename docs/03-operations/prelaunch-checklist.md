@@ -16,6 +16,9 @@ Verificar que el MVP de Patrimonio Claro tenga mínimos aceptables antes de cual
 - [ ] La landing incluye aviso básico de uso de datos.
 - [ ] La landing aclara que cada caso requiere revisión individual.
 - [ ] La landing aclara que el contacto inicial no constituye contratación formal.
+- [ ] Aviso de privacidad implementado.
+- [ ] Link visible al aviso de privacidad desde la landing.
+- [ ] Texto legal validado para MVP.
 - [ ] No hay promesas absolutas de resultado, tiempo o aceptación.
 - [ ] El texto comercial es consistente con el enfoque de revisión inicial.
 
