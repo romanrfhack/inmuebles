@@ -193,6 +193,11 @@
               <label for="empresa">Empresa</label>
               <input id="empresa" name="empresa" type="text" tabindex="-1" autocomplete="off" />
             </div>
+            <input id="utmSource" name="utmSource" type="hidden" value="" />
+            <input id="utmMedium" name="utmMedium" type="hidden" value="" />
+            <input id="utmCampaign" name="utmCampaign" type="hidden" value="" />
+            <input id="utmTerm" name="utmTerm" type="hidden" value="" />
+            <input id="utmContent" name="utmContent" type="hidden" value="" />
             <div>
               <label for="nombre" class="mb-2 block text-sm font-medium text-slate-700">Nombre</label>
               <input id="nombre" name="nombre" type="text" required class="w-full rounded-xl border border-stone-300 px-4 py-3 outline-none transition focus:border-[#17324D] focus:ring-2 focus:ring-[#17324D]/20" />
@@ -276,6 +281,23 @@
   <script>
     const form = document.getElementById('leadForm');
     const formMessage = document.getElementById('formMessage');
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmFieldMap = {
+      utm_source: 'utmSource',
+      utm_medium: 'utmMedium',
+      utm_campaign: 'utmCampaign',
+      utm_term: 'utmTerm',
+      utm_content: 'utmContent',
+    };
+
+    Object.entries(utmFieldMap).forEach(([queryParam, fieldId]) => {
+      const field = document.getElementById(fieldId);
+      if (!field) {
+        return;
+      }
+
+      field.value = (urlParams.get(queryParam) || '').trim();
+    });
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -289,6 +311,11 @@
         valorEstimado: form.valorEstimado.value.trim(),
         comentarios: form.comentarios.value.trim(),
         empresa: form.empresa.value.trim(),
+        utmSource: form.utmSource.value.trim(),
+        utmMedium: form.utmMedium.value.trim(),
+        utmCampaign: form.utmCampaign.value.trim(),
+        utmTerm: form.utmTerm.value.trim(),
+        utmContent: form.utmContent.value.trim(),
       };
 
       if (!data.nombre || !data.telefono) {

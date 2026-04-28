@@ -127,6 +127,7 @@ printf '[]\n' > /var/www/patrimonioclaro/backend/leads.json && chown www-data:ww
 - Canal operativo actual: grupo privado de Telegram `Patrimonio Claro - Leads`.
 - Riesgo principal: exposición de datos personales si el chat destino no está bien controlado.
 - Fallback esperado: si Telegram falla o no está configurado, el lead debe seguir guardándose en `leads.json` y solo debe registrarse un warning no fatal en logs.
+- La notificación puede incluir datos de campaña cuando existan UTMs (`utmSource`, `utmMedium`, `utmCampaign`, `utmTerm`, `utmContent`).
 
 ### Comandos operativos de notificaciones
 ```bash
@@ -136,6 +137,15 @@ journalctl -u patrimonioclaro.service -n 100 --no-pager
 cat /var/www/patrimonioclaro/backend/leads.json
 printf '[]\n' > /var/www/patrimonioclaro/backend/leads.json && chown www-data:www-data /var/www/patrimonioclaro/backend/leads.json
 ```
+
+## Captura de UTMs
+- El frontend puede capturar `utm_source`, `utm_medium`, `utm_campaign`, `utm_term` y `utm_content` desde la URL.
+- El backend puede guardarlos en `leads.json` con los campos `utmSource`, `utmMedium`, `utmCampaign`, `utmTerm` y `utmContent`.
+- La URL recomendada para Google Search es:
+  - `https://patrimonioclaro.site/?utm_source=google&utm_medium=cpc&utm_campaign=regularizacion_inmuebles_mvp&utm_term={keyword}&utm_content=ad_v1`
+- La URL recomendada para WhatsApp/manual es:
+  - `https://patrimonioclaro.site/?utm_source=whatsapp&utm_medium=direct&utm_campaign=contacto_manual`
+- Cuando existan UTMs, también deben reflejarse en la notificación de Telegram.
 
 ## Siguiente paso recomendado
 Definir un criterio de escalamiento y atención operativa para leads nuevos, ahora que la notificación automática ya está activa.

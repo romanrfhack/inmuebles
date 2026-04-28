@@ -12,6 +12,7 @@ const PHONE_MAX_LENGTH = 20;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const TELEGRAM_MESSAGE_COMMENT_LIMIT = 500;
+const UTM_MAX_LENGTH = 150;
 const rateLimitStore = new Map();
 
 function ensureLeadsFile() {
@@ -37,6 +38,7 @@ function sendFile(res, filePath) {
       '.html': 'text/html; charset=utf-8',
       '.css': 'text/css; charset=utf-8',
       '.js': 'application/javascript; charset=utf-8',
+      '.webp': 'image/webp',
     };
 
     res.writeHead(200, { 'Content-Type': contentTypes[ext] || 'application/octet-stream' });
@@ -110,6 +112,10 @@ function normalizeString(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+function normalizeLimitedString(value, maxLength) {
+  return normalizeString(value).slice(0, maxLength);
+}
+
 function getClientIp(req) {
   const forwarded = req.headers['x-forwarded-for'];
   if (typeof forwarded === 'string' && forwarded.length > 0) {
@@ -141,6 +147,11 @@ function sanitizeLeadInput(body) {
     valorEstimado: normalizeString(body.valorEstimado),
     comentarios: normalizeString(body.comentarios),
     empresa: normalizeString(body.empresa),
+    utmSource: normalizeLimitedString(body.utmSource, UTM_MAX_LENGTH),
+    utmMedium: normalizeLimitedString(body.utmMedium, UTM_MAX_LENGTH),
+    utmCampaign: normalizeLimitedString(body.utmCampaign, UTM_MAX_LENGTH),
+    utmTerm: normalizeLimitedString(body.utmTerm, UTM_MAX_LENGTH),
+    utmContent: normalizeLimitedString(body.utmContent, UTM_MAX_LENGTH),
   };
 }
 
@@ -179,6 +190,10 @@ function truncateForTelegram(value, maxLength) {
   return `${value.slice(0, maxLength - 3)}...`;
 }
 
+function valueOrNotSpecified(value) {
+  return value || 'No especificado';
+}
+
 function buildTelegramLeadMessage(lead) {
   return [
     'Nuevo lead - Patrimonio Claro',
@@ -190,6 +205,13 @@ function buildTelegramLeadMessage(lead) {
     `Comentarios: ${truncateForTelegram(lead.comentarios || '', TELEGRAM_MESSAGE_COMMENT_LIMIT)}`,
     `Fecha: ${lead.fecha || ''}`,
     `Origen: ${lead.origen || ''}`,
+    '',
+    'Origen campaña:',
+    `- Fuente: ${valueOrNotSpecified(lead.utmSource)}`,
+    `- Medio: ${valueOrNotSpecified(lead.utmMedium)}`,
+    `- Campaña: ${valueOrNotSpecified(lead.utmCampaign)}`,
+    `- Término: ${valueOrNotSpecified(lead.utmTerm)}`,
+    `- Contenido: ${valueOrNotSpecified(lead.utmContent)}`,
   ].join('\n');
 }
 
@@ -260,6 +282,11 @@ const server = http.createServer(async (req, res) => {
         valorEstimado: input.valorEstimado,
         comentarios: input.comentarios,
         origen: 'landing',
+        utmSource: input.utmSource,
+        utmMedium: input.utmMedium,
+        utmCampaign: input.utmCampaign,
+        utmTerm: input.utmTerm,
+        utmContent: input.utmContent,
       };
 
       saveLead(lead);

@@ -113,3 +113,13 @@ Se actualizó la landing para usar el número real de WhatsApp Business y se agr
 - Se vinculó WhatsApp Business real.
 - Se agregó logo corporativo.
 - Pendiente desplegar a producción después de validación.
+
+## 2026-04-29 - Captura de UTMs en leads
+### Contexto
+Se implementó la captura básica de UTMs en la landing y en el backend para guardar origen de campaña en `leads.json` y reflejarlo también en la notificación de Telegram.
+
+### Nota
+- Se capturan UTMs desde query string.
+- Se guardan en `leads.json`.
+- Se incluyen en Telegram cuando existen.
+- El flujo sigue funcionando aunque no vengan UTMs.
