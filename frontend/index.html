@@ -104,7 +104,7 @@
           </div>
           <div class="rounded-2xl border border-stone-200 p-6 shadow-sm">
             <h3 class="text-lg font-semibold text-slate-900">Intermediación legal</h3>
-            <p class="mt-2 text-sm leading-6 text-slate-600">Canalización de casos con potencial real de avance a revisión especializada.</p>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Canalización de casos con potencial real de avance a atención especializada.</p>
           </div>
         </div>
       </div>
@@ -165,7 +165,12 @@
           <p class="text-sm font-semibold uppercase tracking-[0.16em] text-[#B08D57]">Formulario</p>
           <h2 class="mt-3 text-3xl font-semibold text-slate-900">Cuéntanos lo esencial de tu caso</h2>
           <p class="mt-4 text-base leading-7 text-slate-600">Si hace falta más información, la solicitaremos después. En esta etapa buscamos entender el caso sin pedirte de más.</p>
-          <div class="mt-8 rounded-2xl border border-stone-200 bg-white p-5 text-sm leading-7 text-slate-600 shadow-sm">
+          <div class="mt-6 rounded-2xl border border-stone-200 bg-white p-5 text-sm leading-7 text-slate-600 shadow-sm">
+            <p class="font-semibold text-slate-900">Aviso de uso de datos</p>
+            <p class="mt-2">La información enviada se usa únicamente para revisar tu caso de forma inicial, contactarte y determinar si procede una valoración especializada.</p>
+            <p class="mt-2">El envío de este formulario no constituye contratación formal ni garantiza resultado alguno.</p>
+          </div>
+          <div class="mt-6 rounded-2xl border border-stone-200 bg-white p-5 text-sm leading-7 text-slate-600 shadow-sm">
             <p class="font-semibold text-slate-900">También puedes escribir por WhatsApp</p>
             <p class="mt-2">Si prefieres un contacto más directo, usa el acceso rápido con mensaje prellenado.</p>
             <a
@@ -179,14 +184,18 @@
           </div>
         </div>
         <div class="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm lg:p-8">
-          <form id="leadForm" class="space-y-5">
+          <form id="leadForm" class="space-y-5" novalidate>
+            <div class="honeypot-field" aria-hidden="true">
+              <label for="empresa">Empresa</label>
+              <input id="empresa" name="empresa" type="text" tabindex="-1" autocomplete="off" />
+            </div>
             <div>
               <label for="nombre" class="mb-2 block text-sm font-medium text-slate-700">Nombre</label>
               <input id="nombre" name="nombre" type="text" required class="w-full rounded-xl border border-stone-300 px-4 py-3 outline-none transition focus:border-[#17324D] focus:ring-2 focus:ring-[#17324D]/20" />
             </div>
             <div>
               <label for="telefono" class="mb-2 block text-sm font-medium text-slate-700">Teléfono</label>
-              <input id="telefono" name="telefono" type="tel" required class="w-full rounded-xl border border-stone-300 px-4 py-3 outline-none transition focus:border-[#17324D] focus:ring-2 focus:ring-[#17324D]/20" />
+              <input id="telefono" name="telefono" type="tel" required minlength="8" maxlength="20" class="w-full rounded-xl border border-stone-300 px-4 py-3 outline-none transition focus:border-[#17324D] focus:ring-2 focus:ring-[#17324D]/20" />
             </div>
             <div>
               <label for="tipoProblema" class="mb-2 block text-sm font-medium text-slate-700">Tipo de problema</label>
@@ -208,6 +217,9 @@
               <label for="comentarios" class="mb-2 block text-sm font-medium text-slate-700">Comentarios</label>
               <textarea id="comentarios" name="comentarios" rows="5" class="w-full rounded-xl border border-stone-300 px-4 py-3 outline-none transition focus:border-[#17324D] focus:ring-2 focus:ring-[#17324D]/20" placeholder="Describe brevemente tu caso"></textarea>
             </div>
+            <div class="rounded-2xl bg-stone-50 p-4 text-xs leading-6 text-slate-500">
+              Al enviar tu información autorizas un contacto inicial para revisar tu caso. La revisión preliminar no constituye contratación formal ni implica aceptación automática del asunto.
+            </div>
             <button type="submit" class="w-full rounded-xl bg-[#17324D] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#2E4A62]">Enviar mi caso</button>
             <p id="formMessage" class="text-sm"></p>
           </form>
@@ -225,15 +237,15 @@
         </details>
         <details class="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
           <summary class="cursor-pointer font-semibold text-slate-900">¿Al enviar mis datos ya estoy contratando un servicio?</summary>
-          <p class="mt-3 text-sm leading-6 text-slate-600">No. El envío del formulario permite una revisión inicial del caso.</p>
+          <p class="mt-3 text-sm leading-6 text-slate-600">No. El envío del formulario permite una revisión inicial del caso y un posible contacto posterior.</p>
         </details>
         <details class="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
           <summary class="cursor-pointer font-semibold text-slate-900">¿Me van a pedir todos mis documentos desde el inicio?</summary>
           <p class="mt-3 text-sm leading-6 text-slate-600">No siempre. Primero se revisa la información básica y después se solicita lo necesario si el caso avanza.</p>
         </details>
         <details class="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-          <summary class="cursor-pointer font-semibold text-slate-900">¿Atienden compraventas, herencias o escrituras?</summary>
-          <p class="mt-3 text-sm leading-6 text-slate-600">Sí, como líneas relacionadas, aunque el enfoque inicial es regularización de inmuebles.</p>
+          <summary class="cursor-pointer font-semibold text-slate-900">¿El envío del formulario garantiza atención o resultado?</summary>
+          <p class="mt-3 text-sm leading-6 text-slate-600">No. Cada caso requiere revisión individual y se valora antes de decidir si procede atención especializada.</p>
         </details>
       </div>
     </section>
@@ -246,8 +258,9 @@
         <p>Claridad legal para tu patrimonio</p>
       </div>
       <div class="flex flex-col gap-1 lg:items-end">
+        <p>La información se usa para revisión inicial y contacto posterior.</p>
         <p>Revisión individual de casos. Sujeto a valoración inicial.</p>
-        <p>Aviso de privacidad y términos por integrar en siguiente fase.</p>
+        <p>El contacto inicial no constituye contratación formal ni promesa de resultado.</p>
       </div>
     </div>
   </footer>
@@ -267,10 +280,17 @@
         tipoProblema: form.tipoProblema.value.trim(),
         valorEstimado: form.valorEstimado.value.trim(),
         comentarios: form.comentarios.value.trim(),
+        empresa: form.empresa.value.trim(),
       };
 
       if (!data.nombre || !data.telefono) {
         formMessage.textContent = 'Nombre y teléfono son obligatorios.';
+        formMessage.classList.add('text-red-600');
+        return;
+      }
+
+      if (data.telefono.length < 8) {
+        formMessage.textContent = 'El teléfono debe tener una longitud válida.';
         formMessage.classList.add('text-red-600');
         return;
       }

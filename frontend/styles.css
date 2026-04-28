@@ -5,3 +5,11 @@ body {
 h1, h2, h3 {
   letter-spacing: -0.02em;
 }
+
+.honeypot-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
