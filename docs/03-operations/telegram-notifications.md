@@ -3,6 +3,9 @@
 ## Objetivo
 Documentar la configuración y operación de la notificación automática de nuevos leads por Telegram en Patrimonio Claro.
 
+## Estado actual
+La funcionalidad ya está desplegada en producción y fue validada de extremo a extremo.
+
 ## Variables de entorno requeridas
 - `LEAD_NOTIFICATIONS_ENABLED=true`
 - `TELEGRAM_BOT_TOKEN=<token-del-bot>`
@@ -13,6 +16,22 @@ Documentar la configuración y operación de la notificación automática de nue
 - Si faltan `TELEGRAM_BOT_TOKEN` o `TELEGRAM_CHAT_ID`, no se intenta notificar.
 - Si Telegram falla, el lead debe guardarse de todos modos y el sistema solo debe registrar un warning en logs.
 - No se agregan dependencias externas.
+
+## Configuración productiva
+- El servicio productivo lee variables desde: `/etc/patrimonioclaro/api.env`
+- Ese archivo no está en git.
+- No deben documentarse ni versionarse secretos.
+- Permisos recomendados/confirmados: `root:www-data` con `chmod 640`
+- Canal operativo actual: grupo privado de Telegram `Patrimonio Claro - Leads`
+- El chat destino debe ser privado y con acceso restringido.
+
+## Validación productiva confirmada
+- `POST https://patrimonioclaro.site/api/leads` respondió `success: true`.
+- El lead se guardó correctamente.
+- La notificación llegó al grupo Telegram `Patrimonio Claro - Leads`.
+- Después de la prueba, `backend/leads.json` fue limpiado y quedó en `[]`.
+- El servicio systemd permaneció activo.
+- No se registraron errores fatales en `journalctl`.
 
 ## Cómo probar localmente con notificación deshabilitada
 ```bash
@@ -45,31 +64,38 @@ Confirmar que:
 - el endpoint responde éxito
 - se registra warning no fatal si Telegram responde error o falla la red
 
-## Configuración recomendada en producción con systemd
-Se recomienda usar un archivo de entorno separado:
+## Comandos operativos
 
+### Ver variables cargadas sin mostrar secretos
 ```bash
-/etc/patrimonioclaro/api.env
+systemctl show patrimonioclaro.service --property=EnvironmentFiles
 ```
 
-Ejemplo de contenido:
-```bash
-LEAD_NOTIFICATIONS_ENABLED=true
-TELEGRAM_BOT_TOKEN=colocar-token-real-aqui
-TELEGRAM_CHAT_ID=colocar-chat-id-real-aqui
-```
-
-### Importante
-- `/etc/patrimonioclaro/api.env` NO debe ir a git.
-- No guardar secretos en el repositorio.
-- No registrar tokens en logs.
-
-## Cómo reiniciar servicio
+### Reiniciar servicio
 ```bash
 systemctl restart patrimonioclaro.service
 ```
 
-## Cómo ver logs
+### Ver logs
 ```bash
 journalctl -u patrimonioclaro.service -n 100 --no-pager
 ```
+
+### Ver leads
+```bash
+cat /var/www/patrimonioclaro/backend/leads.json
+```
+
+### Limpiar leads de prueba
+```bash
+printf '[]\n' > /var/www/patrimonioclaro/backend/leads.json && chown www-data:www-data /var/www/patrimonioclaro/backend/leads.json
+```
+
+## Riesgos operativos
+- exposición de datos personales si el chat destino se comparte con personas no autorizadas
+- dependencia de un canal externo que no reemplaza un CRM formal
+- necesidad de mantener secretos fuera del repositorio
+- posibilidad de fallos de red o respuestas no exitosas de Telegram
+
+## Fallback esperado
+Si Telegram falla o no está configurado, el lead debe seguir guardándose en `leads.json` y el sistema solo debe registrar un warning no fatal en logs.

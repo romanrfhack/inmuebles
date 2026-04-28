@@ -96,8 +96,11 @@ printf '[]\n' > /var/www/patrimonioclaro/backend/leads.json && chown www-data:ww
 - `GET https://patrimonioclaro.site` devuelve HTML correctamente.
 - `GET https://patrimonioclaro.site/privacidad.html` devuelve HTML correctamente.
 - `POST https://patrimonioclaro.site/api/leads` respondió `{"success":true,"mensaje":"Recibimos tu información"}`.
+- El lead se guardó correctamente.
+- Llegó notificación al grupo privado de Telegram `Patrimonio Claro - Leads`.
 - `leads.json` fue limpiado después de pruebas y quedó vacío.
 - `systemctl status patrimonioclaro.service` confirmó servicio activo.
+- No se registraron errores fatales en `journalctl`.
 - `nginx -t` confirmó configuración válida.
 - Existen warnings previos de nginx por otros sitios (`cobranzadigital-web` y `opticsoft`).
 - Esos warnings no pertenecen a Patrimonio Claro y no bloquearon el deploy.
@@ -112,14 +115,27 @@ printf '[]\n' > /var/www/patrimonioclaro/backend/leads.json && chown www-data:ww
 - El servidor productivo aloja otros sistemas, por lo que cualquier cambio nginx debe hacerse con `nginx -t` y `reload`, no `restart` innecesario.
 
 ## Notificaciones de leads por Telegram
+- Estado: desplegadas y validadas en producción.
 - Variables necesarias:
   - `LEAD_NOTIFICATIONS_ENABLED=true`
   - `TELEGRAM_BOT_TOKEN`
   - `TELEGRAM_CHAT_ID`
-- Ubicación recomendada del `EnvironmentFile`: `/etc/patrimonioclaro/api.env`
+- Ubicación del `EnvironmentFile`: `/etc/patrimonioclaro/api.env`
+- Permisos confirmados para `api.env`: `root:www-data` con `chmod 640`
 - Ese archivo no debe versionarse en git.
+- No deben documentarse secretos ni valores completos sensibles.
+- Canal operativo actual: grupo privado de Telegram `Patrimonio Claro - Leads`.
 - Riesgo principal: exposición de datos personales si el chat destino no está bien controlado.
 - Fallback esperado: si Telegram falla o no está configurado, el lead debe seguir guardándose en `leads.json` y solo debe registrarse un warning no fatal en logs.
 
+### Comandos operativos de notificaciones
+```bash
+systemctl show patrimonioclaro.service --property=EnvironmentFiles
+systemctl restart patrimonioclaro.service
+journalctl -u patrimonioclaro.service -n 100 --no-pager
+cat /var/www/patrimonioclaro/backend/leads.json
+printf '[]\n' > /var/www/patrimonioclaro/backend/leads.json && chown www-data:www-data /var/www/patrimonioclaro/backend/leads.json
+```
+
 ## Siguiente paso recomendado
-Implementar notificación automática de nuevos leads por correo o Telegram/WhatsApp, sin cambiar todavía a base de datos.
+Definir un criterio de escalamiento y atención operativa para leads nuevos, ahora que la notificación automática ya está activa.

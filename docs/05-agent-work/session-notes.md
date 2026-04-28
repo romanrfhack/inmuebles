@@ -71,3 +71,14 @@ Se implementó la notificación automática de nuevos leads por Telegram en el b
 - Se implementó notificación por Telegram en backend.
 - Queda pendiente configurar variables reales en producción.
 - No se agregaron secretos al repo.
+
+## 2026-04-28 - Notificaciones Telegram desplegadas en producción
+### Contexto
+Se documentó que la funcionalidad de notificaciones por Telegram ya quedó desplegada y validada en producción, sin exponer secretos en el repositorio.
+
+### Nota
+- La funcionalidad ya está activa en producción.
+- El servicio lee variables desde `/etc/patrimonioclaro/api.env`.
+- No se documentaron tokens ni secretos.
+- La prueba end-to-end fue exitosa.
+- `leads.json` fue limpiado después de la prueba.
