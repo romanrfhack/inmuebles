@@ -1,0 +1,115 @@
+# Deploy productivo MVP - Patrimonio Claro
+
+## Resumen
+El MVP de Patrimonio Claro quedó publicado en producción con HTTPS activo y funcionamiento validado para landing, aviso de privacidad y captura básica de leads.
+
+## Infraestructura
+- Dominio principal: https://patrimonioclaro.site
+- Dominio www: https://www.patrimonioclaro.site
+- VPS productivo: 194.238.26.70
+- Hostname productivo: mail.blo.com.mx
+- Sistema operativo: Ubuntu 24.04.3 LTS
+- Ruta del proyecto en producción: /var/www/patrimonioclaro
+- Repositorio GitHub: git@github.com:romanrfhack/inmuebles.git
+- Rama productiva actual: main
+
+## Componentes
+- Node.js backend
+- frontend estático servido por el mismo backend
+- nginx reverse proxy
+- servicio systemd
+- certbot / Let's Encrypt
+- `leads.json` como persistencia temporal MVP
+
+## Configuración productiva
+- Ruta del proyecto: `/var/www/patrimonioclaro`
+- Backend Node: `/var/www/patrimonioclaro/backend/server.js`
+- Puerto interno: `3000`
+- Servicio systemd: `patrimonioclaro.service`
+- Archivo systemd: `/etc/systemd/system/patrimonioclaro.service`
+- Usuario del servicio: `www-data`
+- Grupo del servicio: `www-data`
+- Nginx site: `/etc/nginx/sites-available/patrimonioclaro`
+- Nginx enabled: `/etc/nginx/sites-enabled/patrimonioclaro`
+- SSL: Let's Encrypt / Certbot
+- Certificado: `/etc/letsencrypt/live/patrimonioclaro.site/fullchain.pem`
+- Llave privada: `/etc/letsencrypt/live/patrimonioclaro.site/privkey.pem`
+- Expira: `2026-07-27`
+- Renovación automática: configurada por certbot
+- Persistencia MVP: `/var/www/patrimonioclaro/backend/leads.json`
+
+## Comandos operativos
+
+### Ver estado
+```bash
+systemctl status patrimonioclaro.service --no-pager -l
+```
+
+### Reiniciar app
+```bash
+systemctl restart patrimonioclaro.service
+```
+
+### Ver logs
+```bash
+journalctl -u patrimonioclaro.service -n 100 --no-pager
+```
+
+### Ver leads
+```bash
+cat /var/www/patrimonioclaro/backend/leads.json
+```
+
+### Validar nginx
+```bash
+nginx -t
+```
+
+### Recargar nginx
+```bash
+systemctl reload nginx
+```
+
+### Validar landing
+```bash
+curl -s https://patrimonioclaro.site | head -10
+```
+
+### Validar aviso de privacidad
+```bash
+curl -s https://patrimonioclaro.site/privacidad.html | head -10
+```
+
+### Probar POST
+```bash
+curl -s -X POST https://patrimonioclaro.site/api/leads \
+-H "Content-Type: application/json" \
+-d '{"nombre":"Prueba","telefono":"5512345678","tipoProblema":"Regularización","valorEstimado":"3000000","comentarios":"Prueba controlada"}'
+```
+
+### Limpiar leads de prueba
+```bash
+printf '[]\n' > /var/www/patrimonioclaro/backend/leads.json && chown www-data:www-data /var/www/patrimonioclaro/backend/leads.json
+```
+
+## Validaciones realizadas
+- `GET https://patrimonioclaro.site` devuelve HTML correctamente.
+- `GET https://patrimonioclaro.site/privacidad.html` devuelve HTML correctamente.
+- `POST https://patrimonioclaro.site/api/leads` respondió `{"success":true,"mensaje":"Recibimos tu información"}`.
+- `leads.json` fue limpiado después de pruebas y quedó vacío.
+- `systemctl status patrimonioclaro.service` confirmó servicio activo.
+- `nginx -t` confirmó configuración válida.
+- Existen warnings previos de nginx por otros sitios (`cobranzadigital-web` y `opticsoft`).
+- Esos warnings no pertenecen a Patrimonio Claro y no bloquearon el deploy.
+
+## Riesgos pendientes
+- Persistencia en JSON no es robusta para concurrencia o volumen real.
+- No existe panel administrativo de leads.
+- No existe notificación automática por correo o WhatsApp cuando entra un lead.
+- No hay monitoreo formal.
+- Tailwind sigue cargando por CDN.
+- Aviso de privacidad MVP requiere validación legal final.
+- El servidor productivo aloja otros sistemas, por lo que cualquier cambio nginx debe hacerse con `nginx -t` y `reload`, no `restart` innecesario.
+
+## Siguiente paso recomendado
+Implementar notificación automática de nuevos leads por correo o Telegram/WhatsApp, sin cambiar todavía a base de datos.

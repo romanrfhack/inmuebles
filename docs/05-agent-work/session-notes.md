@@ -41,3 +41,15 @@ Se incorporó el aviso corto para formulario y se documentó una versión integr
 - Se actualizó el copy visible del formulario.
 - Se documentó el aviso integral en notas legales operativas.
 - No se modificó arquitectura ni flujo técnico.
+
+## 2026-04-28 - Deploy productivo MVP
+### Contexto
+Se documentó la publicación del MVP en producción para Patrimonio Claro con dominio activo y operación básica validada.
+
+### Nota
+- Se publicó el MVP en producción.
+- Dominio activo con HTTPS.
+- Servicio systemd activo.
+- nginx reverse proxy configurado.
+- `leads.json` limpio después de pruebas.
+- Pendiente implementar notificaciones de leads.
