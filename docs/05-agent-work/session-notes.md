@@ -133,3 +133,12 @@ Se acotó la campaña piloto de Google Search a Ciudad de México, priorizando z
 - Se priorizaron zonas de mayor valor inmobiliario esperado.
 - Se excluyen zonas de menor ticket esperado durante piloto.
 - Se mantiene enfoque de cumplimiento y no discriminación.
+
+## 2026-04-29 - Soporte de query params en landing
+### Contexto
+Se corrigió el servidor para aceptar query params en la landing, lo que desbloquea el uso de URLs UTM para Google Ads sin romper la carga de `index.html`.
+
+### Nota
+- Se corrigió el servidor para aceptar query params en la landing.
+- Esto desbloquea URLs UTM para Google Ads.
+- La URL recomendada se mantiene: `https://patrimonioclaro.site/?utm_source=google&utm_medium=cpc&utm_campaign=regularizacion_inmuebles_mvp&utm_term={keyword}&utm_content=ad_v1`.

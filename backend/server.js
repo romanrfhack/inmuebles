@@ -47,7 +47,9 @@ function sendFile(res, filePath) {
 }
 
 function serveStatic(req, res) {
-  const requestedPath = req.url === '/' ? '/index.html' : req.url;
+  const requestUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  const pathname = requestUrl.pathname;
+  const requestedPath = pathname === '/' ? '/index.html' : pathname;
   const normalizedPath = path.normalize(requestedPath).replace(/^([.][.][/\\])+/, '');
   const filePath = path.join(frontendDir, normalizedPath);
 
@@ -250,7 +252,10 @@ async function notifyLeadByTelegram(lead) {
 }
 
 const server = http.createServer(async (req, res) => {
-  if (req.method === 'POST' && req.url === '/api/leads') {
+  const requestUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  const pathname = requestUrl.pathname;
+
+  if (req.method === 'POST' && pathname === '/api/leads') {
     const clientIp = getClientIp(req);
 
     if (isRateLimited(clientIp)) {

@@ -26,6 +26,10 @@ https://patrimonioclaro.site/?utm_source=whatsapp&utm_medium=direct&utm_campaign
 - Los campos se cargan en hidden fields del formulario.
 - El backend guarda los UTMs en `leads.json`.
 - La notificación de Telegram incluye origen de campaña.
+- El servidor fue corregido para aceptar query params en la landing sin romper la entrega de `index.html`.
 
 ## Nota operativa
 Si el lead llega sin UTMs, los campos se guardan vacíos y el flujo actual no se rompe.
+
+## URL recomendada vigente
+https://patrimonioclaro.site/?utm_source=google&utm_medium=cpc&utm_campaign=regularizacion_inmuebles_mvp&utm_term={keyword}&utm_content=ad_v1
