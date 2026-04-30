@@ -153,3 +153,12 @@ Se agregó tracking de conversiones de Google Ads en la landing para disparar co
 - No se mide page load.
 - No se mide clic previo.
 - La medición no debe bloquear el registro del lead.
+
+## 2026-04-30 - Campaña Google Ads activa y controlada
+### Contexto
+Se documentó la configuración inicial de la campaña piloto Google Ads ya activa, con controles básicos aplicados y lista para monitoreo.
+
+### Nota
+- La campaña quedó activa y controlada.
+- Se documentó presupuesto, ubicaciones, tracking y assets base.
+- Se mantiene lista para monitoreo antes de nuevos cambios.
