@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Patrimonio Claro | Claridad legal para tu patrimonio</title>
   <meta name="description" content="Regularización de inmuebles y revisión inicial de casos legales inmobiliarios con enfoque claro, profesional y confiable." />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18126485563"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18126485563');
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="./styles.css" />
 </head>
@@ -341,6 +349,12 @@
 
         if (!response.ok) {
           throw new Error(result.mensaje || 'No fue posible enviar la información.');
+        }
+
+        if (result && result.success === true && typeof gtag === 'function') {
+          gtag('event', 'conversion', {
+            'send_to': 'AW-18126485563/iMn9COrts6UcELvwsMND'
+          });
         }
 
         form.reset();

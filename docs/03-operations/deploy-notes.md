@@ -147,5 +147,12 @@ printf '[]\n' > /var/www/patrimonioclaro/backend/leads.json && chown www-data:ww
   - `https://patrimonioclaro.site/?utm_source=whatsapp&utm_medium=direct&utm_campaign=contacto_manual`
 - Cuando existan UTMs, también deben reflejarse en la notificación de Telegram.
 
+## Tracking de conversiones Google Ads
+- Se agregó Google tag `AW-18126485563` en la landing.
+- La conversión se dispara solo después de `success: true` del endpoint `/api/leads`.
+- No se mide `page load`.
+- No se mide clic previo al guardado del lead.
+- La medición de Google Ads no debe bloquear el registro del lead.
+
 ## Siguiente paso recomendado
 Definir un criterio de escalamiento y atención operativa para leads nuevos, ahora que la notificación automática ya está activa.

@@ -142,3 +142,14 @@ Se corrigió el servidor para aceptar query params en la landing, lo que desbloq
 - Se corrigió el servidor para aceptar query params en la landing.
 - Esto desbloquea URLs UTM para Google Ads.
 - La URL recomendada se mantiene: `https://patrimonioclaro.site/?utm_source=google&utm_medium=cpc&utm_campaign=regularizacion_inmuebles_mvp&utm_term={keyword}&utm_content=ad_v1`.
+
+## 2026-04-30 - Tracking de conversiones Google Ads
+### Contexto
+Se agregó tracking de conversiones de Google Ads en la landing para disparar conversión solo después de que el lead se guarda correctamente.
+
+### Nota
+- Se agregó Google tag `AW-18126485563`.
+- La conversión se dispara solo después de `success true` del endpoint `/api/leads`.
+- No se mide page load.
+- No se mide clic previo.
+- La medición no debe bloquear el registro del lead.
