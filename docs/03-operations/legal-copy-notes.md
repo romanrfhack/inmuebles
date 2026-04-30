@@ -32,7 +32,7 @@ Los datos podrán ser compartidos con un especialista legal únicamente con la f
 El envío de información no constituye una relación contractual ni garantiza la prestación de servicios.
 
 **Derechos ARCO:**  
-El usuario puede solicitar acceso, rectificación o eliminación de sus datos mediante solicitud directa.
+El usuario puede solicitar acceso, rectificación o eliminación de sus datos mediante solicitud directa a `privacidad@patrimonioclaro.site`.
 
 **Cambios:**  
 Este aviso puede ser modificado en cualquier momento.
@@ -45,3 +45,7 @@ Este aviso puede ser modificado en cualquier momento.
 - enlazar después a una página dedicada de aviso de privacidad completo cuando exista
 - mantener consistencia entre formulario, footer y FAQ
 - evitar promesas de resultado, aceptación automática o contratación implícita
+
+## Canales de correo definidos
+- `contacto@patrimonioclaro.site` como correo público general
+- `privacidad@patrimonioclaro.site` como canal ARCO, privacidad y tratamiento de datos personales

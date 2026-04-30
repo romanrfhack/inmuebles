@@ -162,3 +162,13 @@ Se documentó la configuración inicial de la campaña piloto Google Ads ya acti
 - La campaña quedó activa y controlada.
 - Se documentó presupuesto, ubicaciones, tracking y assets base.
 - Se mantiene lista para monitoreo antes de nuevos cambios.
+
+## 2026-04-30 - Actualización de correos corporativos
+### Contexto
+Se actualizaron la landing, el aviso de privacidad y la documentación para usar correos corporativos del dominio patrimonioclaro.site.
+
+### Nota
+- Se definió `contacto@patrimonioclaro.site` como correo público general.
+- Se definió `privacidad@patrimonioclaro.site` como canal ARCO y privacidad.
+- WhatsApp Business conserva el número `525573266634`.
+- Telegram sigue siendo canal interno de notificación de leads.

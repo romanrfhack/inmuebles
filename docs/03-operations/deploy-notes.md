@@ -154,5 +154,11 @@ printf '[]\n' > /var/www/patrimonioclaro/backend/leads.json && chown www-data:ww
 - No se mide clic previo al guardado del lead.
 - La medición de Google Ads no debe bloquear el registro del lead.
 
+## Canales corporativos definidos
+- `contacto@patrimonioclaro.site` como correo público general.
+- `privacidad@patrimonioclaro.site` como canal ARCO, privacidad y tratamiento de datos personales.
+- WhatsApp Business conserva el número `525573266634`.
+- Telegram sigue siendo canal interno de notificación de leads.
+
 ## Siguiente paso recomendado
 Definir un criterio de escalamiento y atención operativa para leads nuevos, ahora que la notificación automática ya está activa.
