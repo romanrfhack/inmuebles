@@ -13,11 +13,39 @@ const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const TELEGRAM_MESSAGE_COMMENT_LIMIT = 500;
 const UTM_MAX_LENGTH = 150;
+const FIELD_MAX_LENGTH = 150;
+const COMMENT_MAX_LENGTH = 2000;
+const DUPLICATE_WINDOW_MS = 24 * 60 * 60 * 1000;
+const ALLOWED_FIELDS = new Set([
+  'nombre',
+  'telefono',
+  'ubicacionInmueble',
+  'tipoProblema',
+  'valorEstimado',
+  'comentarios',
+  'empresa',
+  'utmSource',
+  'utmMedium',
+  'utmCampaign',
+  'utmTerm',
+  'utmContent',
+]);
 const rateLimitStore = new Map();
 
 function ensureLeadsFile() {
   if (!fs.existsSync(leadsFile)) {
     fs.writeFileSync(leadsFile, '[]\n', 'utf8');
+  }
+}
+
+function readLeads() {
+  ensureLeadsFile();
+  try {
+    const raw = fs.readFileSync(leadsFile, 'utf8');
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
   }
 }
 
@@ -118,6 +146,10 @@ function normalizeLimitedString(value, maxLength) {
   return normalizeString(value).slice(0, maxLength);
 }
 
+function normalizePhone(value) {
+  return normalizeString(value).replace(/\D+/g, '');
+}
+
 function getClientIp(req) {
   const forwarded = req.headers['x-forwarded-for'];
   if (typeof forwarded === 'string' && forwarded.length > 0) {
@@ -141,13 +173,22 @@ function isRateLimited(ip) {
   return false;
 }
 
+function hasUnknownFields(body) {
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return false;
+  }
+
+  return Object.keys(body).some((key) => !ALLOWED_FIELDS.has(key));
+}
+
 function sanitizeLeadInput(body) {
   return {
-    nombre: normalizeString(body.nombre),
-    telefono: normalizeString(body.telefono),
-    tipoProblema: normalizeString(body.tipoProblema),
-    valorEstimado: normalizeString(body.valorEstimado),
-    comentarios: normalizeString(body.comentarios),
+    nombre: normalizeLimitedString(body.nombre, FIELD_MAX_LENGTH),
+    telefono: normalizeLimitedString(body.telefono, FIELD_MAX_LENGTH),
+    ubicacionInmueble: normalizeLimitedString(body.ubicacionInmueble, FIELD_MAX_LENGTH),
+    tipoProblema: normalizeLimitedString(body.tipoProblema, FIELD_MAX_LENGTH),
+    valorEstimado: normalizeLimitedString(body.valorEstimado, FIELD_MAX_LENGTH),
+    comentarios: normalizeLimitedString(body.comentarios, COMMENT_MAX_LENGTH),
     empresa: normalizeString(body.empresa),
     utmSource: normalizeLimitedString(body.utmSource, UTM_MAX_LENGTH),
     utmMedium: normalizeLimitedString(body.utmMedium, UTM_MAX_LENGTH),
@@ -166,18 +207,46 @@ function validateLead(lead) {
     return { statusCode: 400, mensaje: 'Teléfono es obligatorio' };
   }
 
-  if (lead.telefono.length < PHONE_MIN_LENGTH || lead.telefono.length > PHONE_MAX_LENGTH) {
+  if (!lead.ubicacionInmueble) {
+    return { statusCode: 400, mensaje: 'Ubicación del inmueble es obligatoria' };
+  }
+
+  if (!lead.tipoProblema) {
+    return { statusCode: 400, mensaje: 'Tipo de problema es obligatorio' };
+  }
+
+  if (!lead.valorEstimado) {
+    return { statusCode: 400, mensaje: 'Valor estimado es obligatorio' };
+  }
+
+  const normalizedPhone = normalizePhone(lead.telefono);
+  if (normalizedPhone.length < PHONE_MIN_LENGTH || normalizedPhone.length > PHONE_MAX_LENGTH) {
     return { statusCode: 400, mensaje: 'Teléfono con longitud inválida' };
   }
 
   return null;
 }
 
-function saveLead(payload) {
-  ensureLeadsFile();
-  const current = JSON.parse(fs.readFileSync(leadsFile, 'utf8'));
-  current.push(payload);
-  fs.writeFileSync(leadsFile, JSON.stringify(current, null, 2) + '\n', 'utf8');
+function findRecentDuplicateLead(leads, telefono) {
+  const normalizedTarget = normalizePhone(telefono);
+  if (!normalizedTarget) {
+    return null;
+  }
+
+  const now = Date.now();
+  return leads.find((lead) => {
+    const leadPhone = normalizePhone(lead.telefono || '');
+    if (!leadPhone || leadPhone !== normalizedTarget) {
+      return false;
+    }
+
+    const leadTime = Date.parse(lead.fecha || '');
+    if (Number.isNaN(leadTime)) {
+      return false;
+    }
+
+    return now - leadTime <= DUPLICATE_WINDOW_MS;
+  }) || null;
 }
 
 function truncateForTelegram(value, maxLength) {
@@ -200,13 +269,14 @@ function buildTelegramLeadMessage(lead) {
   return [
     'Nuevo lead - Patrimonio Claro',
     '',
-    `Nombre: ${lead.nombre || ''}`,
-    `Teléfono: ${lead.telefono || ''}`,
-    `Tipo de problema: ${lead.tipoProblema || ''}`,
-    `Valor estimado: ${lead.valorEstimado || ''}`,
-    `Comentarios: ${truncateForTelegram(lead.comentarios || '', TELEGRAM_MESSAGE_COMMENT_LIMIT)}`,
-    `Fecha: ${lead.fecha || ''}`,
-    `Origen: ${lead.origen || ''}`,
+    `Nombre: ${valueOrNotSpecified(lead.nombre)}`,
+    `Teléfono: ${valueOrNotSpecified(lead.telefono)}`,
+    `Ubicación del inmueble: ${valueOrNotSpecified(lead.ubicacionInmueble)}`,
+    `Tipo de problema: ${valueOrNotSpecified(lead.tipoProblema)}`,
+    `Valor estimado: ${valueOrNotSpecified(lead.valorEstimado)}`,
+    `Comentarios: ${valueOrNotSpecified(truncateForTelegram(lead.comentarios || '', TELEGRAM_MESSAGE_COMMENT_LIMIT))}`,
+    `Fecha: ${valueOrNotSpecified(lead.fecha)}`,
+    `Origen: ${valueOrNotSpecified(lead.origen)}`,
     '',
     'Origen campaña:',
     `- Fuente: ${valueOrNotSpecified(lead.utmSource)}`,
@@ -265,6 +335,12 @@ const server = http.createServer(async (req, res) => {
 
     try {
       const body = await parseBody(req);
+
+      if (hasUnknownFields(body)) {
+        sendJson(res, 400, { success: false, mensaje: 'La solicitud contiene campos no permitidos' });
+        return;
+      }
+
       const input = sanitizeLeadInput(body);
 
       if (input.empresa) {
@@ -278,11 +354,22 @@ const server = http.createServer(async (req, res) => {
         return;
       }
 
+      const existingLeads = readLeads();
+      const duplicateLead = findRecentDuplicateLead(existingLeads, input.telefono);
+      if (duplicateLead) {
+        sendJson(res, 409, {
+          success: false,
+          mensaje: 'Ya recibimos una solicitud con este teléfono. Te contactaremos para dar seguimiento.'
+        });
+        return;
+      }
+
       const lead = {
         id: randomUUID(),
         fecha: new Date().toISOString(),
         nombre: input.nombre,
         telefono: input.telefono,
+        ubicacionInmueble: input.ubicacionInmueble,
         tipoProblema: input.tipoProblema,
         valorEstimado: input.valorEstimado,
         comentarios: input.comentarios,
@@ -294,7 +381,8 @@ const server = http.createServer(async (req, res) => {
         utmContent: input.utmContent,
       };
 
-      saveLead(lead);
+      existingLeads.push(lead);
+      fs.writeFileSync(leadsFile, JSON.stringify(existingLeads, null, 2) + '\n', 'utf8');
       void notifyLeadByTelegram(lead);
       sendJson(res, 200, { success: true, mensaje: 'Recibimos tu información' });
     } catch (error) {

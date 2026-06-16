@@ -172,3 +172,16 @@ Se actualizaron la landing, el aviso de privacidad y la documentación para usar
 - Se definió `privacidad@patrimonioclaro.site` como canal ARCO y privacidad.
 - WhatsApp Business conserva el número `525573266634`.
 - Telegram sigue siendo canal interno de notificación de leads.
+
+## 2026-06-16 - Mejora de captura y deduplicación de leads
+### Contexto
+Se ajustó el formulario y el backend en desarrollo para mejorar la calidad de lead antes de seguir invirtiendo en Google Ads, sin tocar producción ni configuración externa.
+
+### Nota
+- Se agregó `ubicacionInmueble` como campo obligatorio.
+- `valorEstimado` pasó de texto libre a rangos estructurados.
+- `tipoProblema` se amplió con categorías más precisas.
+- Se implementó deduplicación básica por teléfono en ventana de 24 horas con respuesta `409`.
+- Telegram ahora incluye ubicación del inmueble.
+- El tracking de Google Ads se mantiene condicionado a `response.ok` y `success true`.
+- Siguiente monitoreo recomendado: calidad por ubicación, `tipoProblema` y `utmContent`.

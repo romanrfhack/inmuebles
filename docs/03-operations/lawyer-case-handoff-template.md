@@ -31,5 +31,13 @@
 - Descartar
 - Requiere revisión previa
 
+## Origen y calidad del lead
+- Fuente UTM:
+- Medio UTM:
+- Campaña UTM:
+- Término UTM:
+- Contenido UTM:
+- ¿Lead duplicado descartado en operación?:
+
 ## Nota
 Este resumen es preliminar y no sustituye la revisión legal del abogado.

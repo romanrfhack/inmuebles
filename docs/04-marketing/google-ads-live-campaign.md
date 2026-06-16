@@ -41,6 +41,8 @@
 
 ## Conversion tracking
 - La medición está asociada al envío exitoso del formulario.
+- Se mantiene condicionada a `response.ok` y `result.success === true`.
+- No dispara conversión cuando backend responde `400`, `409`, falla o `gtag` no existe.
 - No se mide `page load`.
 - No se mide solo clic.
 - La medición no debe bloquear el guardado del lead.
@@ -84,5 +86,19 @@
 - no activar Final URL expansion durante este piloto
 - no activar TV screens durante este piloto
 
+## Calidad de lead observada
+- Google Ads reportó 7 conversiones.
+- `leads.json` mostró 8 registros, con 1 duplicado detectado manualmente.
+- Hay 7 leads únicos reales, así que la medición de Google Ads parece estar alineada con leads reales.
+- Se detectaron leads fuera de CDMX, ubicaciones insuficientes, valores difíciles de clasificar y uso excesivo de `Otro`.
+
+## Ajustes aplicados en desarrollo
+- Se agregó ubicación obligatoria del inmueble.
+- Se estructuró `valorEstimado` por rangos.
+- Se agregaron tipos de problema más precisos.
+- Se añadió prevención básica de duplicados por teléfono en ventana de 24 horas.
+- Telegram ahora muestra ubicación del inmueble.
+
 ## Siguiente revisión recomendada
 Revisar resultados iniciales dentro de 24–48 horas para validar si hay clics útiles, leads reales, calidad de tráfico y necesidad de abrir una campaña Search manual con mayor control.
+Poner foco específico en calidad por ubicación, `tipoProblema` y `utmContent`.

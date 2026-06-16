@@ -215,20 +215,36 @@
               <input id="telefono" name="telefono" type="tel" required minlength="8" maxlength="20" class="w-full rounded-xl border border-stone-300 px-4 py-3 outline-none transition focus:border-[#17324D] focus:ring-2 focus:ring-[#17324D]/20" />
             </div>
             <div>
+              <label for="ubicacionInmueble" class="mb-2 block text-sm font-medium text-slate-700">Ubicación del inmueble</label>
+              <input id="ubicacionInmueble" name="ubicacionInmueble" type="text" required placeholder="Alcaldía / municipio / estado" class="w-full rounded-xl border border-stone-300 px-4 py-3 outline-none transition focus:border-[#17324D] focus:ring-2 focus:ring-[#17324D]/20" />
+              <p class="mt-2 text-xs text-slate-500">Ejemplo: Tláhuac, CDMX</p>
+            </div>
+            <div>
               <label for="tipoProblema" class="mb-2 block text-sm font-medium text-slate-700">Tipo de problema</label>
-              <select id="tipoProblema" name="tipoProblema" class="w-full rounded-xl border border-stone-300 px-4 py-3 outline-none transition focus:border-[#17324D] focus:ring-2 focus:ring-[#17324D]/20">
+              <select id="tipoProblema" name="tipoProblema" required class="w-full rounded-xl border border-stone-300 px-4 py-3 outline-none transition focus:border-[#17324D] focus:ring-2 focus:ring-[#17324D]/20">
                 <option value="">Selecciona una opción</option>
                 <option>Regularización de inmueble</option>
                 <option>Regularización de escrituras</option>
                 <option>Sucesión o herencia</option>
-                <option>Compraventa segura</option>
+                <option>Prescripción adquisitiva</option>
                 <option>Revisión documental</option>
+                <option>Problema por compraventa</option>
+                <option>Propiedad invadida / recuperación</option>
+                <option>Fraude o incumplimiento inmobiliario</option>
                 <option>Otro</option>
               </select>
             </div>
             <div>
               <label for="valorEstimado" class="mb-2 block text-sm font-medium text-slate-700">Valor estimado del inmueble</label>
-              <input id="valorEstimado" name="valorEstimado" type="text" placeholder="Ej. 3 a 5 millones MXN" class="w-full rounded-xl border border-stone-300 px-4 py-3 outline-none transition focus:border-[#17324D] focus:ring-2 focus:ring-[#17324D]/20" />
+              <select id="valorEstimado" name="valorEstimado" required class="w-full rounded-xl border border-stone-300 px-4 py-3 outline-none transition focus:border-[#17324D] focus:ring-2 focus:ring-[#17324D]/20">
+                <option value="">Selecciona una opción</option>
+                <option>Menos de 1 millón</option>
+                <option>1 a 2 millones</option>
+                <option>2 a 5 millones</option>
+                <option>5 a 10 millones</option>
+                <option>Más de 10 millones</option>
+                <option>No lo sé</option>
+              </select>
             </div>
             <div>
               <label for="comentarios" class="mb-2 block text-sm font-medium text-slate-700">Comentarios</label>
@@ -241,7 +257,7 @@
             <div class="text-xs leading-6 text-slate-500">
               La revisión preliminar no constituye contratación formal ni implica aceptación automática del asunto.
             </div>
-            <button type="submit" class="w-full rounded-xl bg-[#17324D] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#2E4A62]">Enviar mi caso</button>
+            <button id="submitButton" type="submit" class="w-full rounded-xl bg-[#17324D] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#2E4A62] disabled:cursor-not-allowed disabled:opacity-70">Enviar mi caso</button>
             <p id="formMessage" class="text-sm"></p>
           </form>
         </div>
@@ -289,6 +305,8 @@
   <script>
     const form = document.getElementById('leadForm');
     const formMessage = document.getElementById('formMessage');
+    const submitButton = document.getElementById('submitButton');
+    const defaultSubmitText = submitButton.textContent;
     const urlParams = new URLSearchParams(window.location.search);
     const utmFieldMap = {
       utm_source: 'utmSource',
@@ -315,6 +333,7 @@
       const data = {
         nombre: form.nombre.value.trim(),
         telefono: form.telefono.value.trim(),
+        ubicacionInmueble: form.ubicacionInmueble.value.trim(),
         tipoProblema: form.tipoProblema.value.trim(),
         valorEstimado: form.valorEstimado.value.trim(),
         comentarios: form.comentarios.value.trim(),
@@ -326,17 +345,20 @@
         utmContent: form.utmContent.value.trim(),
       };
 
-      if (!data.nombre || !data.telefono) {
-        formMessage.textContent = 'Nombre y teléfono son obligatorios.';
+      if (!data.nombre || !data.telefono || !data.ubicacionInmueble || !data.tipoProblema || !data.valorEstimado) {
+        formMessage.textContent = 'Nombre, teléfono, ubicación, tipo de problema y valor estimado son obligatorios.';
         formMessage.classList.add('text-red-600');
         return;
       }
 
-      if (data.telefono.length < 8) {
+      if (data.telefono.replace(/\D+/g, '').length < 8) {
         formMessage.textContent = 'El teléfono debe tener una longitud válida.';
         formMessage.classList.add('text-red-600');
         return;
       }
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Enviando...';
 
       try {
         const response = await fetch('/api/leads', {
@@ -358,11 +380,20 @@
         }
 
         form.reset();
+        Object.entries(utmFieldMap).forEach(([queryParam, fieldId]) => {
+          const field = document.getElementById(fieldId);
+          if (field) {
+            field.value = (urlParams.get(queryParam) || '').trim();
+          }
+        });
         formMessage.textContent = result.mensaje || 'Recibimos tu información';
         formMessage.classList.add('text-green-700');
+        submitButton.textContent = 'Solicitud enviada';
       } catch (error) {
         formMessage.textContent = error.message || 'Ocurrió un error al enviar la información.';
         formMessage.classList.add('text-red-600');
+        submitButton.disabled = false;
+        submitButton.textContent = defaultSubmitText;
       }
     });
   </script>

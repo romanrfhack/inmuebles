@@ -2,15 +2,17 @@
 
 ## Flujo general
 1. Lead llega desde landing.
-2. Se guarda en `leads.json`.
-3. Telegram notifica al grupo privado.
-4. Responsable revisa datos.
-5. Se contacta al prospecto.
-6. Se clasifica como caliente, tibio, frío o descartado.
-7. Si aplica, se prepara resumen para abogado.
-8. Abogado revisa.
-9. Se agenda sesión o se descarta.
-10. Se da seguimiento.
+2. El formulario exige nombre, teléfono, ubicación del inmueble, tipo de problema y valor estimado por rango.
+3. El backend valida campos permitidos y bloquea duplicados por teléfono dentro de 24 horas.
+4. Si el lead es válido y no duplicado, se guarda en `leads.json`.
+5. Telegram notifica al grupo privado con ubicación del inmueble y origen de campaña.
+6. Responsable revisa datos.
+7. Se contacta al prospecto.
+8. Se clasifica como caliente, tibio, frío o descartado.
+9. Si aplica, se prepara resumen para abogado.
+10. Abogado revisa.
+11. Se agenda sesión o se descarta.
+12. Se da seguimiento.
 
 ## SLA recomendado
 - Lead caliente: responder en menos de 30 minutos si es horario hábil.
@@ -55,8 +57,17 @@ Por cada lead registrar al menos:
 - fecha de entrada
 - nombre
 - teléfono
+- ubicación del inmueble
 - tipo de problema
+- valor estimado por rango
 - clasificación comercial
 - estado actual
 - fecha de último contacto
 - siguiente acción sugerida
+
+## Ajustes recientes del formulario
+- Se agregó ubicación obligatoria del inmueble.
+- El valor estimado dejó de ser texto libre y ahora se captura por rangos.
+- Se amplió el catálogo de `tipoProblema` para reducir el uso excesivo de `Otro`.
+- Se agregó prevención básica de duplicados por teléfono en ventana de 24 horas.
+- El siguiente monitoreo operativo debe revisar calidad de leads por ubicación, `tipoProblema` y `utmContent`.
